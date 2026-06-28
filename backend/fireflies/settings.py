@@ -57,13 +57,31 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'fireflies.wsgi.application'
 
-# SQLite database
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+# Database Configuration (SQLite locally, Postgres/Any in production via DATABASE_URL)
+import os
+try:
+    # pyrefly: ignore [missing-import]
+    import dj_database_url
+except ImportError:
+    dj_database_url = None
+
+if dj_database_url:
+    DATABASES = {
+        'default': dj_database_url.config(
+            default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}"
+        )
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
+
+# Enforce SSL if using PostgreSQL (e.g. Neon or Supabase) in production
+if DATABASES['default'].get('ENGINE') == 'django.db.backends.postgresql':
+    DATABASES['default'].setdefault('OPTIONS', {})['sslmode'] = 'require'
 
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
