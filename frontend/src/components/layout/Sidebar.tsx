@@ -136,10 +136,10 @@ export const Sidebar = () => {
         </div>
         <div style={{ overflow: 'hidden' }}>
           <p style={{ fontSize: '13px', fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-            Sudha&apos;s Workspace
+            Sudhanva&apos;s Workspace
           </p>
           <p style={{ fontSize: '11px', color: 'var(--text-muted)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-            sudha@company.com
+            sudhanva@company.com
           </p>
         </div>
       </div>
